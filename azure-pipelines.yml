@@ -48,7 +48,7 @@ stages:
     - build
     - validate
   variables:
-    - template: ${{ variables['System.DefaultWorkingDirectory'] }}/pipeline/resource-group/variables/dev-variables.yml
+    - template: ${{ variables['System.DefaultWorkingDirectory'] }}/pipeline/resource-group/variables/dev.yml
   jobs:
     - deployment: dev
       displayName: 'Deploy-Dev'
