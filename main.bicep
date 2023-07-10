@@ -6,7 +6,7 @@ param name string
 
 targetScope = 'subscription'
 
-module rg_team '../starter/.bicep/resourceGroup.bicep' = {
+module rg_team '/bicep/resourceGroup.bicep' = {
   scope: subscription(subscriptionId)
   name: name
   params: {
