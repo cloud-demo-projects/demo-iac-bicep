@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "resourcegroups": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "metadata": {
+                        "type": "object",
+                        "teamName": {
+                            "type": "string"
+                        } ,
+                        "justification": {
+                            "type": "string"
+                        } ,
+                        "requestId": {
+                            "type": "string"
+                        },
+                        "comments": {
+                            "type": "string"
+                        }
+                    },
+                    "resourceGroupName": {
+                        "type": "string"
+                    },
+                    "owner": {
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "resourceGroupName",
+                    "owner"
+                ]
+            }
+        }
+    }
+}

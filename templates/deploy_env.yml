@@ -1,0 +1,19 @@
+parameters:
+  azureSubscription: ''
+  location: ''
+  environment: ''
+  templateFile: ''
+
+steps: 
+  - task: AzurePowerShell@4
+    displayName: Deploy Resource Groups
+    inputs:
+      azureSubscription: ${{ parameters.azureSubscription }}
+      scriptType: filePath
+      scriptPath: '$(Pipeline.Workspace)/drop/pipeline/resource-group/scripts/New-ResourceGroups.ps1'
+      failOnStandardError: true
+      azurePowerShellVersion: latestVersion
+      scriptArguments: >
+          -Environment ${{ parameters.environment }}
+          -Location ${{ parameters.location }}
+          -TemplateFile ${{ parameters.templateFile }}

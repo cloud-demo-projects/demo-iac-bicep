@@ -1,0 +1,75 @@
+name: 'core-resourcegroup'
+
+trigger:
+  paths:
+    include:
+      - pipeline/resource-group
+    exclude:
+      - pipeline/resource-group/*.md
+
+variables:
+  - template: ${{ variables['System.DefaultWorkingDirectory'] }}/global-variables.yml
+
+stages:
+- stage: build
+  displayName: Build
+  jobs:
+  - job: build
+    pool: $(defaultPool)
+    steps:
+    - task: CopyFiles@2
+      displayName: CopyTemplates
+      inputs:
+        TargetFolder: $(Build.ArtifactStagingDirectory)
+
+    - task: PublishBuildArtifacts@1
+      displayName: Publish artifacts
+      inputs:
+        PathtoPublish: $(Build.ArtifactStagingDirectory)
+        ArtifactName: drop
+
+- stage: validate
+  displayName: Validate Build
+  dependsOn:
+    - build
+  jobs:
+  - job: validateCredScan
+    pool: $(windowsPool)
+    displayName: "Validate code with CredScan"
+    steps:
+    - template: ${{ variables['System.DefaultWorkingDirectory'] }}/templates/validate-credscan.yml
+      parameters:
+        artifactName: drop
+
+- stage: dev
+  displayName: dev
+  condition: or(variables['otherBranch'], variables['masterBranch'])
+  dependsOn : 
+    - build
+    - validate
+  variables:
+    - template: ${{ variables['System.DefaultWorkingDirectory'] }}/pipeline/resource-group/variables/dev-variables.yml
+  jobs:
+    - deployment: dev
+      displayName: 'Deploy-Dev'
+      environment: dev-env
+      timeoutInMinutes: 120
+      pool: $(windowsPool)
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+            - task: DownloadBuildArtifacts@0
+              displayName: Download build artifacts
+              inputs:
+                buildType: 'current'
+                downloadType: 'single'
+                artifactName: 'drop'
+                downloadPath: '$(Pipeline.Workspace)'
+
+            - template: ../templates/deploy_env.yml
+              parameters:
+                azureSubscription: ${{ variables.azureSubscriptionDev }}
+                location: ${{ variables.locationDev }}
+                environment: ${{ variables.environment }}
+                templateFile: ${{ variables.templateFile }}

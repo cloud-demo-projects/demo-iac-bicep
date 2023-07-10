@@ -1,0 +1,6 @@
+variables:
+  environment: 'dev-env'
+  templateFile: '$(Pipeline.Workspace)/drop/pipeline/resource-group/main.bicep'
+  azureSubscriptionDev: 'reg-dev'
+  subscriptionIdDev: 
+  locationDev: westeurope

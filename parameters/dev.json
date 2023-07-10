@@ -1,0 +1,15 @@
+{
+    "$schema": "../schema/rg-model.schema.json",
+    "resourcegroups": [
+        {
+            "resourceGroupName": "test-rg",
+            "owner": "bahri.nipun@gmail.com",
+            "metadata": {
+                "teamName": "Core",
+                "justification": "Core solution",
+                "requestId": "None",
+                "comments": "Core solution "
+            }
+        }
+    ]
+}
