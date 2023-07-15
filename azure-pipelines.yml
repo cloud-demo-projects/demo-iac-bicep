@@ -3,9 +3,9 @@ name: 'core-resourcegroup'
 trigger:
   paths:
     include:
-      - pipeline/resource-group
+      - resource-group
     exclude:
-      - pipeline/resource-group/*.md
+      - resource-group/*.md
 
 variables:
   - template: ${{ variables['System.DefaultWorkingDirectory'] }}/pipeline/resource-group/variables/global-variables.yml
