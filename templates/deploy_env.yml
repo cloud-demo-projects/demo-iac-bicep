@@ -10,7 +10,7 @@ steps:
     inputs:
       azureSubscription: ${{ parameters.azureSubscription }}
       scriptType: filePath
-      scriptPath: '$(Pipeline.Workspace)/drop/pipeline/resource-group/scripts/New-ResourceGroups.ps1'
+      scriptPath: '$(Pipeline.Workspace)/drop/scripts/New-ResourceGroups.ps1'
       failOnStandardError: true
       azurePowerShellVersion: latestVersion
       scriptArguments: >
